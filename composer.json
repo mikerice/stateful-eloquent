@@ -1,0 +1,20 @@
+{
+    "name": "mikerice/stateful-eloquent",
+    "description": "State machines for Eloquent classes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mike Rice",
+            "email": "mike.hj.rice@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MikeRice\\Stateful\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "~5.0"
+    }
+}
