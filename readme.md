@@ -2,17 +2,17 @@
 
 If you're familiar with my [AASM](https://github.com/aasm/aasm), then this is a similar take – just implemented in Laravel 5 for Eloquent classes.
 
-## Usage
+## Installation
 
 ### Step 1: Install Through Composer
 
 ```
-composer require mikerice/staetful-eloquent
+composer require mikerice/stateful-eloquent
 ```
 
 ### Step 2: Add the Service Provider
 
-```
+```php
 MikeRice\Stateful\StatefulServiceProvider::class,
 ```
 
@@ -20,7 +20,7 @@ MikeRice\Stateful\StatefulServiceProvider::class,
 
 Your models should use the Stateful trait and interface
 
-```
+```php
 use MikeRice\Stateful\StatefulTrait;
 use MikeRice\Stateful\StatefulInterface;
 
@@ -34,45 +34,55 @@ class Transaction extends Model implements StatefulInterface
 
 Your models should have an array name `$states` that define your model states.
 
-```
-    /**
-     * Transaction States
-     *
-     * @var array
-     */
-    protected $states = [
-        'draft' => ['inital' => true],
-        'processing',
-        'errored',
-        'active',
-        'closed' => ['final' => true]
-    ];
+```php
+/**
+ * Transaction States
+ *
+ * @var array
+ */
+protected $states = [
+    'draft' => ['inital' => true],
+    'processing',
+    'errored',
+    'active',
+    'closed' => ['final' => true]
+];
 ```
 
-### Step 5 Create your Model State Transitions
+### Step 5: Create your Model State Transitions
 
+```php
+/**
+ * Transaction State Transitions
+ *
+ * @var array
+ */
+protected $transitions = [
+    'process' => [
+        'from' => ['draft', 'errored'],
+        'to' => 'processing'
+    ],
+    'activate' => [
+        'from' => 'processing',
+        'to' => 'active'
+    ],
+    'fail' => [
+        'from' => 'processing',
+        'to' => 'errored'
+    ],
+    'close' => [
+        'from' => 'active',
+        'to' => 'close'
+    ]
+];
 ```
-    /**
-     * Transaction State Transitions
-     *
-     * @var array
-     */
-    protected $transitions = [
-        'process' => [
-            'from' => ['draft', 'errored'],
-            'to' => 'processing'
-        ],
-        'activate' => [
-            'from' => 'processing',
-            'to' => 'active'
-        ],
-        'fail' => [
-            'from' => 'processing',
-            'to' => 'errored'
-        ],
-        'close' => [
-            'from' => 'active',
-            'to' => 'close'
-        ]
-    ];
+
+## Usage
+
+```php
+$transaction = new Transaction();
+
+$transaction->process();
+
+$transaction->isProcessing();
 ```

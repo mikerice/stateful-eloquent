@@ -2,6 +2,12 @@
     "name": "mikerice/stateful-eloquent",
     "description": "State machines for Eloquent classes",
     "license": "MIT",
+    "homepage": "https://github.com/mikerice/stateful-eloquent",
+    "keywords": [
+        "laravel",
+        "eloquent",
+        "statemachine"
+    ],
     "authors": [
         {
             "name": "Mike Rice",
@@ -13,8 +19,17 @@
             "MikeRice\\Stateful\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "MikeRice\\Stateful\\Tests\\": "tests"
+        }
+    },
     "require": {
         "php": ">=5.5.9",
-        "illuminate/support": "~5.0"
-    }
+        "illuminate/support": "~5.3.*",
+        "illuminate/database": "~5.3.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
 }
